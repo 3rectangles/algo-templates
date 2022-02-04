@@ -25,11 +25,6 @@ template<typename T>
 /*member functions :
 
 1. findbridge(int node, int parent, vector<int> &vis, vector<int> &tin, vector<int> &low, int &timer, vector<int> adj[]) : prints bridges in undirected graph
-2. VariableSize_sliding_win(v,k,ptr=""): finds max/min wind allowing at max k constraint.   QUES: LONGEST SUBSTRING WITH K UNIQUE CHARACTERS
-3. rabinkarp(srting st, string ptrn, V(ll) &ans):  returns all starting index in text(st) which matches to  ptrn . Matches string to text in O(N+M) , n= size of text/ string. M= size of ptrn
-    sub func:   getHash(string key)  // returns polynomial hashing of string.: (key[0]*p^0+ key[1]*p^1+ ..key[n-1]*p^n-1) % mod
-                txthash(string input_string ,V(ll) &dp, V(ll)&primes ) //dp[] stores all suffix hashes of st (text), primes[] stores power of p%mod
-
 
 
 */
