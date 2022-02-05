@@ -1233,7 +1233,7 @@ filltable()
                     table[i][l]=table[i][l-1];
             else
                 ll x==table[i][l-1]; // ancestor i at  2^l-1 level
-                table[i][l]=x;
+                table[i][l]=table[x][l-1];
         }
     }
 }
