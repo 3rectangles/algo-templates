@@ -1210,7 +1210,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx kruskal a
 // sort edges
 // loop for n-1 edges, if no cycle add edge to graph
 xxxxxxxxxxxx
-xxxxxxxxxxxxxxxxxxxx successor graph / binary lifting xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxx successor graph / binary lifting/ LCA/ k ancestor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // uses binary lifting 
 
 #define ll long long
