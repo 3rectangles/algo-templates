@@ -30,6 +30,23 @@ template<typename T>
 */
 
 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Subtree XXXXXXXXXXXXXXX
+vector<lli> size(n,0); // global
+
+subtree(i)
+{
+    size[i]=1; // atleast 1 size
+    lli a=0;
+    for(int child: adj[node])
+    {
+        if(size[child]==0 &&(1)) // unvisited & checking some other condition that child node has to satisfy
+            a+=subtree(child);
+        // no need to check for unvisted child bec its tree, not a graph    
+        
+    }
+    return size[i]= size[i]+a;
+}
+
 xxxxxxxxxxxxxxxxxxxxxxxxxxfinding centroid of tree xxxxxxxxxxxxxxx
 // root tree. find subtree size of all
 //do dfs and move to child node whose subtree size > n/2
@@ -64,5 +81,9 @@ int main()
 }
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx LONGEST DIAMETER, DP ON TREE XXXXXXXXXX
-
+int main()
+{// read tree
+	subSize(1 , -1);// root at 1
+	cout<<centroid(1 , -1); // start search from 1
+}
  
