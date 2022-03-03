@@ -15,6 +15,17 @@
 #define MT make_tuple
 #define G(a,b) get<a>(b)
 #define V(a) vector<a>
+using ll = long long;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vi = vector<int>;
+using vvi = vector<vi>;
+using vl = vector<ll>;
+using vvl = vector<vl>;
+using vvvl = vector<vvl>;
+const ll mod = 1e9 + 7,inf = 1e18;
+#define pb push_back
+#define fast ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
 
 static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
@@ -81,9 +92,11 @@ int main()
 }
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx LONGEST DIAMETER, DP ON TREE XXXXXXXXXX
-
-adj[n];
-dp[n][2]; //dp[u][0]: longest path  in subtree of u ending at u. dp[u][1]: longest path  in subtree of inclusind u and not ending at u. 
+int n = 3e5 + 5;
+vvvl adj(n);//we need to store the edge weights
+vvl dp(n,vl(2));// //dp[u][0]: longest path  in subtree of u ending at u. dp[u][1]: longest path  in subtree of inclusind u and not ending at u. 
+vl w(n);
+ll ans = 0;
 int main()
 {// read tree
 	cin>> n; // # nodes?
@@ -93,7 +106,7 @@ int main()
 		adj[u].PB(v); adj[v].PB(u);	
 	}
 	dfs(1); // rooting at node 1
-	cout<< max(dp[1][0], dp[1][1])); // ans is max path in subtree of 1 ending at 1 or passing through 1
+	cout<< ans; // ans is max path in subtree of 1 ending at 1 or passing through 1
 }
 
 void dfs(int u, int p =-1)
@@ -114,5 +127,6 @@ void dfs(int u, int p =-1)
 	}
 	else // leaf node
 	{ dp[u][1]==0; dp[u][0]==0;}
+	    ans = max(ans,max(dp[u][0],dp[u][1]));
 
 }
