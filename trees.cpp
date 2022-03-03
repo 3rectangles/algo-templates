@@ -81,9 +81,38 @@ int main()
 }
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx LONGEST DIAMETER, DP ON TREE XXXXXXXXXX
+
+adj[n];
+dp[n][2]; //dp[u][0]: longest path  in subtree of u ending at u. dp[u][1]: longest path  in subtree of inclusind u and not ending at u. 
 int main()
 {// read tree
-	subSize(1 , -1);// root at 1
-	cout<<centroid(1 , -1); // start search from 1
+	cin>> n; // # nodes?
+	for( int i =1; i<=n-1; i++) // n-1 edges for trees
+	{
+	if	cin>>u>>v;
+		adj[u].PB(v); adj[v].PB(u);	
+	}
+	dfs(1); // rooting at node 1
+	cout<< max(dp[1][0], dp[1][1])); // ans is max path in subtree of 1 ending at 1 or passing through 1
 }
- 
+
+void dfs(int u, int p =-1)
+{
+	  dp[u][0]=0; dp[u][1]=0;	
+	  for(auto v:adj[u])
+	 {	
+		 if(v==p) continue;
+		  dfs(v,u); // done for childeren
+		  l.PB(dp[v][0]); // pushing it in list for path passing through u , selecting best 2 children
+	}
+	sort(l.begin(), l.end());// decreaisng order sort. picking 2nd best child
+	if(l.size()>0) // not a leaf node
+	{
+		dp[u][0]= l[0] +1;
+		if(l.size()>1) // u have 2 children else dp[u][1]==0+
+		dp[u][1]= l[0] +1+ l[1] +1;
+	}
+	else // leaf node
+	{ dp[u][1]==0; dp[u][0]==0;}
+
+}
