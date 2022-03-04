@@ -130,3 +130,56 @@ void dfs(int u, int p =-1)
 	    ans = max(ans,max(dp[u][0],dp[u][1]));
 
 }
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx paths of k length , DP ON TREE XXXXXXXXXX
+// edge cas: simple paths
+int n = 5e4 + 5,k = 505;
+vvl dp(n,vl(k));
+vvi adj(n);
+ll ans = 0;
+ 
+void dfs(int u,int p)
+{
+    dp[u][0] = 1; // base case. product of  count of paths of x len * count of path of k-x len 
+ 
+    for (int v:adj[u]){
+        if (v == p)continue;
+        dfs(v,u); // calculate for child first
+ 
+        for (int x = 1;x<=k;x++)
+            dp[u][x] += dp[v][x - 1]; // for dp[u][x]: paths start at u of len x, add x-1 len path of every child
+    }
+    
+    ans += dp[u][k]; // all paths start at u of len k
+ 
+    ll tot = 0; // initialised to 0 for every node, count of paths passing through u of len k
+    
+    for (int v:adj[u]){ // O(# children * K)
+        if (v == p)continue; //skip the par, par isnt in subtree of u
+        
+        for (int x = 1;x<=k - 1;x++) // x is[1,k-1]: to prevent -ve parameters, also beck len paths having u as endpoint already added 
+            tot += dp[v][x - 1] * (dp[u][k - x] - dp[v][k - x - 1]); // add all k leng pair pasing through u, from every child 
+	    // for every child of u (v) iterate over path of len 1 to k-1 and multiply with paths of complementary lengths.
+        
+    }
+ 
+    ans += tot/2;//double counted joining paths 
+}
+ 
+int main()
+{
+    setIO();
+    cin>>n>>k;
+ 
+    for (int i = 1;i<=n - 1;i++){
+        int u,v;
+        cin>>u>>v;
+        adj[u].pb(v),adj[v].pb(u);
+    }
+ 
+    dfs(1,-1);
+ 
+    cout<<ans;
+    return 0;
+}
+
