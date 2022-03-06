@@ -131,7 +131,7 @@ void dfs(int u, int p =-1)
 
 }
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx paths of k length , DP ON TREE XXXXXXXXXX
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx no of paths of k length in tree , DP ON TREE XXXXXXXXXX
 // edge cas: simple paths
 int n = 5e4 + 5,k = 505;
 vvl dp(n,vl(k));
