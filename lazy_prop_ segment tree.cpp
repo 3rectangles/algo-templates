@@ -1,4 +1,34 @@
 
+
+#include <bits/stdc++.h>
+using namespace std;
+#define M1 1000000007
+#define M2 998244353
+#define INT_MIN is -2147483648
+#define ll long long
+#define ld long double
+#define pll pair<ll,ll>
+#define REP(i,a,b) for(ll i=a;i<b;i++)
+#define REPI(i,a,b) for(ll i=b-1;i>=a;i--)
+#define F first
+#define S second
+#define PB push_back
+#define DB pop_back
+#define MP make_pair
+#define MT make_tuple
+#define G(a,b) get<a>(b)
+#define V(a) vector<a>
+using ll = long long;
+using vb = vector<bool>;
+using vvb = vector<vb>;
+using vi = vector<int>;
+using vvi = vector<vi>;
+using vl = vector<ll>;
+using vvl = vector<vl>;
+using vvvl = vector<vvl>;
+const ll mod = 1e9 + 7,inf = 1e18;
+#define pb push_back
+
 xxxxxxxxxxxxxxxxxxxxxx lazy  segment tree with nodes  xxxxxxxxxxx
 // build ,  point update, query , nodes in segment tree
 
