@@ -4,7 +4,7 @@ using namespace __gnu_pbds;
 #define INT_MIN is -2147483648
 #define ll long long
 #define ld long double
-#define pll pair<ll,ll>
+#define pll pair<ll,ll> 
 #define REP(i,a,b) for(ll i=a;i<b;i++)
 #define REPI(i,a,b) for(ll i=b-1;i>=a;i--)
 #define F first
@@ -181,7 +181,7 @@ struct node{
 };
 node seg(4*n +5); // array of struct
 
-node merge(node left, node right) // returns struct node
+node f(node left, node right) // returns struct node
 {
     node ans;
     ans =min(left.a, right,a);
@@ -202,7 +202,7 @@ void build(int index, int low, int high)
     int rc = 2*i+1; // right child index
     build( lc ,low,mid); //do for left child
     build( rc , mid+1, high); //do for right child
-    seg[index]= merge(seg[ lc ],seg[ rc ]); // do for parent node
+    seg[index]= f(seg[ lc ],seg[ rc ]); // do for parent node
     return ;
 }
 
@@ -216,7 +216,7 @@ void update(int index, int low, int high, int key, int value)
     else
         update(2*index+1 , mid+1, high, key ,value);
     // update dome for children
-    seg[index] = merge (seg[2 * index], seg[2 * index+1];  
+    seg[index] = f(seg[2 * index], seg[2 * index+1];  
 }
 
 node query(int index , int low,int high, int l, int r)
@@ -234,7 +234,7 @@ node query(int index , int low,int high, int l, int r)
     int rc = 2*i+1; // right child index
     node left= query( lc, low, mid , l,r );
     node right= query(rc,mid+1, high, l, r);
-    return merge(left,right);
+    return f(left,right);
 }
 
 int main()
