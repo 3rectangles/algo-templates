@@ -82,7 +82,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ARTICULATION POINT/ CUT VERTEX XXXXXXXXXXXXXXX
 
  int n; // number of nodes
-<vector<int> adj[n+1]; // adjacency list of graph
+vector<int> adj[n+1]; // adjacency list of graph
 
 vector<bool> visited;
 vector<int> tin, low;
@@ -97,7 +97,7 @@ void dfs(int v, int p = -1) {
     for (int child : adj[v]) {
         if (child == p) continue; // was forward edge in dfs tree
         if (visited[child]) { // child is visited that is its ancestor -- a back edge
-            low[v] = min(low[v], tin[child]); // update if another path exist to node thrpugh ancestor
+            low[v] = min(low[v], tin[child]); // lowest ancestor to which this node is connected
         } else {  // child not visited a forward edge
             dfs(child, v);
             low[v] = min(low[v], low[child]);  // update low of current node
