@@ -352,6 +352,112 @@ class Trie()
     
 };
 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx leet code trie with class xxxxxxxxxxxxxxxxxxxxxxxxx
+#define ll long long
+// return sum, of all keuy that matches with prefix, and if key already present update key	
+struct node{
+ 
+    ll score=0;
+    vector<node*> child;
+  
+    int eof=0; // if 0 then no word ends here , else tells freq of words
+    node(){
+      
+        child.resize(26,nullptr);
+    }
+    
+};
+
+class MapSum {
+
+public:
+    
+node* root;    
+unordered_map<string, int> um;    
+public:
+    MapSum() {
+        root= new node();
+    }
+    
+    void insert(string key, int val) {
+        if(um.find(key)!= um.end()) // key already present, update value
+            { 
+           // cout<< key<<" present  with val "<<um[key]<<endl;
+                int old= um[key];
+                um[key]=val; // update map with new value
+                val= val-old;
+               
+         //   cout<< key<<" present chamnged to  "<<um[key]<<endl;
+            }
+        else // new key adding
+            um[key]=val; // put new key
+            
+        node* temp= root;
+        for(int i=0; i< key.length(); i++)
+        {
+            int index=key[i]-'a';
+            if(temp-> child[index]==NULL) //key not present add it
+                temp-> child[index]= new node();
+            temp=temp-> child[index]; //
+            temp->score+=val;
+            
+        }
+         temp-> eof+=1; // inc freq of word
+         //cout<< key<<" "<<val<<" "<< temp->score<<endl;
+    }
+    
+    int sum(string prefix) {   // without dfs
+        node* temp =root;
+        
+         for(int i=0; i< prefix.length(); i++)
+        {
+            int index=prefix[i]-'a';
+            if(temp-> child[index]==NULL) // prefix nopt present return 0
+                return 0;
+            temp=temp-> child[index]; // if present move down 
+           
+            
+        }
+         return temp->score; // return sum of all key with given prefix
+        
+    }
+	
+	int sum(string prefix)
+	{   // with dfs
+		val = 0;
+		node* temp= root;
+		for(char c:  prefix) {
+		    if(temp->child[c-'a']==NULL) // prefix not present
+			return 0;
+		    curr = curr->dict[c-'a']; // else travel down till we reach the prefix
+		}
+		 return helper(curr); // prefix reached call dfs for all keys below it
+		
+	
+	ll helper(node* temp)
+	{
+		ll ans=0;
+		
+		if(temp->isEnd)
+		    ans += temp->score;
+		for(int i=0;i<26;i++){ // travel to children
+		    if(temp->child[i])
+			ans+=helper(temp->child[i]);
+        	return ans;
+	}
+		
+    }
+
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum* obj = new MapSum();
+ * obj->insert(key,val);
+ * int param_2 = obj->sum(prefix);
+ */
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx trie with dfs 
 
 
 XXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx binsry trie xxxxxxxxxxxxxxxx
