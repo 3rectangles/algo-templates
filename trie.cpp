@@ -460,100 +460,83 @@ public:
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx trie with dfs 
 
 
-XXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx binsry trie xxxxxxxxxxxxxxxx
+XXXXXXXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx leet code binary trie xxxxxxxxxxxxxxxx
 
-
-struct Node1 {  // binary trie
-    Node *links[2]; 
-
+#define ll long long
+// return sum, of all keuy that matches with prefix, and if key already present update key	
+struct node{
+ 
+   // ll score=0;
+    vector<node*> child;
     int count; // stores count of words that end below it + at it.
     // count is how many times  this char/node is visited during insertion.
-    int eof; //  how many numbers ending at this bit
+    int eof=0; //  how many numbers ending at this bit
     
-
-    Node()  // constructor
-    {for(int i =0; i<1;i++)
-        link[i]=NULL;
-        eof=0; count=0;
+  
+   
+    node(){
+      
+        child.resize(2,nullptr);
     }
- 
-    bool contains(int ind) {
-        return (links[ind] != NULL); 
-    }
-    Node* get(int ind) {
-        return links[ind]; 
-    }
-    void put(int ind, Node* node) {
-        links[ind] = node; 
-    }
-
-     void eofplus()
-    {eof++;}
-
-    void countplus()
-    {count++;}
-
-    void eofminus()
-    {eof--;}
-
-    void countminus()
-    {count--;}
     
-    int eof()
-    {return eof;}
-
-    int count()
-    {return count;}
-}; 
-class bTrie { // binary trie
-    private: Node* root; 
+};
+class Solution {
 public:
-    bTrie() {
-        root = new Node(); 
+    node* root;
+public:
+    int findMaximumXOR(vector<int>& nums)
+    {
+        int ans=0;
+        root= new node(); // initialise trie
+        
+        //insert no in trie
+        for (auto &elm : nums)
+           insert(elm);
+        // find max possible xor in trie 
+        
+        for(auto &elm : nums)
+        {
+            int q=findmax(elm);
+            cout<< q<<endl;
+            ans= max(ans,q);
+        }
+     return ans;   
     }
     
-    public: 
-    void insert(int num) {
-        Node* node = root;
-        // cout << num << endl; 
-        for(int i = 31;i>=0;i--) {
-            int bit = (num >> i) & 1; 
-            if(!node->contains(bit)) {
-                node->put(bit, new Node1()); 
-            }
-            node = node->get(bit); 
-            node->countplus();
-        }
-        node->eofplus();
-    }
-    public:
-    int findMax(int num) // findin max xor with num
+    void insert(int a)
     {
-        Node* node = root; 
-        int maxNum = 0; 
-        for(int i = 31;i>=0;i--) {
-            int bit = (num >> i) & 1; 
-            if(node->contains(!bit)) { 
-                maxNum = maxNum | (1<<i); 
-                node = node->get(!bit); 
-            }
-            else {
-                node = node->get(bit); 
-            }
+        node* temp=root;
+        // 32 bit int
+         bitset<32> bs(a);
+        for(int i =31; i>=0; i--)
+        {
+            
+            if(temp-> child[bs[i]] == NULL) // not present
+                temp-> child[bs[i]]= new node();
+            temp=temp-> child[bs[i]];
         }
-        return maxNum; 
+        
+        temp->eof=1;
+    }
+    
+    
+    int findmax(int n)
+    {
+        node* t= root;
+          bitset<32> bs(n);
+        int ans=0; 
+        for(int j=31; j>=0; j--){
+            if(t->child[!bs[j]]) // if compliment bit exists
+            {
+                ans += (1<<j);
+                t = t->child[!bs[j]];
+            }
+                 //Since 1^0 = 1 & 1^1 = 0, 0^0 = 0
+           
+            else  // no contribution
+                t = t->child[bs[j]];
+        }
+        return ans;
     }
 };
 
-int maxXOR(int n, int m, vector<int> &arr1, vector<int> &arr2) // return max xor btw x^y such that xin arr1 and y in arr2
-{
-    bTrie trie; 
-    for(int i = 0;i<n;i++) {
-        trie.insert(arr1[i]); 
-    }
-    int maxi = 0;
-    for(int i = 0;i<m;i++) {
-        maxi = max(maxi, trie.findMax(arr2[i])); 
-    }
-    return maxi; 
-}
