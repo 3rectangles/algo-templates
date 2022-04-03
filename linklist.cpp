@@ -46,4 +46,36 @@ public:
         
     
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  merge 2 sorted link list in ascending order, inplace xxxxxxxxxxxxxxxxxxxx
+  ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        
+        if(!l1) return l2; // if any of the l1 list is empty
+        if(!l2) return l1;  // if any of the l2 list is empty
+        ListNode* head;  ListNode* prev; ListNode* a; ListNode* s;
+        if(l1->val > l2->val) swap(l1,l2);  // l1 is always starting point
+        head= l1; //starts from first node of l1
+        prev=l1; // starting point is alwasy l1
+        l1= l1->next;
+        while(l1 && l2)
+        {
+            if(l1->val<= l2->val)
+            {
+                 prev->next=l1;
+                prev=l1;
+                l1=l1->next;
+            }
+            else
+            {
+                prev->next= l2;
+                prev=l2;
+                l2=l2->next;
+            }
+        }
+        
+        if(!l1)// l1 finsihes
+            prev->next=l2;
+        if(!l2)
+            prev->next= l1;
+        return head;
+    }
+    xxxxxxxxxxxxxxxxxxxxxxxxx
