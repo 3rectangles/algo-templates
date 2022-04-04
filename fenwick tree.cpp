@@ -91,3 +91,73 @@ int main()
     }
 
 }
+
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx bit tree compression. inversion count type xxxxxxxxxxxxxxxxx 
+// find pairs where num[i] > 2*num[j ] , such that i< j
+class Solution {
+    public:
+    int bit[50000+5]; //5 * 1e5
+    int n;
+    
+    unordered_map<int, int> mp; // for compression
+public:
+    
+    void update( int i, int v)
+    {
+        while(i<=n)
+        {
+            bit[i]+=v;
+            i+=(i&(-i));
+        }
+    }
+    int sum(int i)
+    {
+        if(i==0) return 0;
+        int ans=0;
+        while(i>0)
+        {
+            ans+= bit[i];
+            i-= (i&(-i));
+        }
+        return ans;
+    }
+    int reversePairs(vector<int>& nums) {
+        
+        // using bit
+        // using compression by map
+        // find sum of l,r
+        // update nums[j]
+        n = nums.size();
+        int bit[n+1]; //bit[0] is invalid in bit tree
+        
+        vector<int>v;
+        for(int i =0; i< n;i++)
+            v.push_back(nums[i]);
+        sort(v.begin(),v.end());
+         for(int i=0;i<n;i++) //give index in bit to every elmn in input array
+        {
+            mp[v[i]]=i+1;  //+1 bec of 1+ indexing in bit
+        }
+        long long int ans=0; int pos;
+        for( int i=0;i<n;i++)
+        {
+            long long int val=nums[i];
+            long long int val2=2*val;
+            long long int idx=upper_bound(v.begin(),v.end(),val2)-v.begin();
+            if(idx!=n) // i.e searched no by upperbound exists in v.
+            {
+               pos=mp[v[idx]]; //finding searced no index wrt to bit
+                
+                
+                    ans+=(sum(n)-sum(pos-1));
+            }
+            pos=mp[nums[i]]; // update: imp, see
+            update(pos,1);
+            
+        }
+        return ans;
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
