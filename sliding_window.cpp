@@ -24,3 +24,29 @@ public:
         
     }
 };
+xxxxxxx min len windown whose sum >= k, return 0 if no such subarray xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        
+        int mlen= 200000;
+        int i=0; int j=0;
+        int s=0;
+        while(i< nums.size())
+        {
+            s+=nums[i]; // calculations
+            while(j <=i && s>= target) // decrease the win size till we can
+            {
+                if( i-j+1 < mlen ) mlen=i-j+1;
+                s=s-nums[j]; //remove left elm from calculation
+                j++;
+            }
+            // candidate ans already done while decreasing j
+            i++; // increase win size
+        }
+        if(mlen== 200000) mlen=0;  // if no such window found retunr 0
+        return mlen;
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
