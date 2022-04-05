@@ -49,4 +49,38 @@ public:
         return mlen;
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx max elmns in window such that at max 2 different types of elmns are possible
+// leetcode fruit basket 
+class Solution {
+public:
+    int totalFruit(vector<int>& nums) {
+        
+         int mlen= 0;
+        unordered_map<int,int> um ;
+        int i=0; int j=0;
+        int s=0;
+        while(i< nums.size())
+        {
+            um[nums[i]]+=1; //calculations
+            while(j <=i && um.size()>2 ) // decrease the win size till constraint
+            {
+                um[nums[j]]-=1;
+                if(um[nums[j]]==0) um.erase(nums[j]);  //remove left elm from calculation
+                j++;
+            }
+            if(um.size()<=2) // check for candidate
+            { 
+                int ans=0;
+               for(auto it:um)
+                   ans+= it.second;
+                mlen=max(mlen,ans);
+            }
+          
+            i++; // increase win size
+        }
+        //if(mlen== 200000) mlen=0;  // if no such window found retunr 0
+        return mlen;
+        
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
