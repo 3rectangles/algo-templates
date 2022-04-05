@@ -83,4 +83,34 @@ public:
         
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  longest window with no repeating characters xxxxxxxxxxxxxxxxxxxxxxxx
+ class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int> um; // to count freq of each charact. um.size() represents no of uniques characters in um
+        int r=0;
+        int l=0;
+        int ans=0;
+        
+        while(r < s.length())
+        {
+            um[s[r]]+=1; // add the extended window calculations
+          //  cout<<s[r] <<" "<< um[s[r]]<<endl;
+            while(l <= r && um.size()< r-l+1) //  duplicate in win, decrease wind from left 
+            {  // for abb r-l+1 =3 bugt um.size()=2 i.e window have duplicate characters
+                um[s[l]]-=1;
+                if(um[s[l]]==0) um.erase(s[l]);
+                l++;
+            }
+            
+            if(um.size() == r-l+1) // all unique characters candidate
+                ans= max(ans, r-l+1);
+                
+            r++; // increase window
+                
+        }
+        return ans;
+        
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
