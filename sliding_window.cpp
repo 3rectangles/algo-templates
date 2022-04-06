@@ -113,4 +113,37 @@ public:
         
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  fixed window size xxxxxxxxxxxxxxxxxxxxxxxxx
+// return the max element for each win of size k: uses deque
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;
+        vector<int> ans;
+        int l=0,r=0;
+        if(nums.size()<k) return ans;  // empty vector
+        
+        while(r<nums.size())
+        {
+            // add r in dequ
+            while( !dq.empty() && nums[r]>dq.back()){
+               // cout<<"r= "<<r<<" "<< dq.front()<<" ";
+                dq.pop_back();
+            }
+                
+            dq.push_back(nums[r]);
+            if( r-l +1 < k) // window size not achieved
+                r++;
+            else if(k==r-l+1) // window size achieved
+            {
+                ans.push_back(dq.front());
+                // slide the window
+                if(!dq.empty() && dq.front() ==nums[l])
+                    dq.pop_front();
+                l++;r++;
+            }
+        }
+        return ans;
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
