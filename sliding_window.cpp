@@ -36,7 +36,7 @@ public:
         while(i< nums.size())
         {
             s+=nums[i]; // calculations
-            while(j <=i && s>= target) // decrease the win size till we can
+            while(j <=i && s>= target) // decrease the win size till we can. note: imp that j<=i (equal to) for wins of size 1
             {
                 if( i-j+1 < mlen ) mlen=i-j+1;
                 s=s-nums[j]; //remove left elm from calculation
