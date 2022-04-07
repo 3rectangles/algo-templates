@@ -146,4 +146,43 @@ public:
         return ans;
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  all windows in string s1 which are permutaion of string s2
+class Solution {
+public:
+    bool checkInclusion(string s1, string s2) {
+        
+        if(s1.length() > s2.length()) return false;
+               vector<int>count1(26,0), count2(26,0);
+           int i;
+           
+          vector<int> ans;
+        for(i = 0; i < s1.size(); i++) {
+            // compute the frequency of each char for the first window
+            count1[s1[i] - 'a']++;
+            count2[s2[i] - 'a']++;
+        }
+         if(count1 == count2)  ans.push_back(0);
+        
+           
+        cout<<"ok"<<endl;
+         int start = 0, end = s1.length();
+         int k= 0; // window size
+        
+        while(end < s2.size()){
+        //remove char at 'start' index and add char at 'end' index
+            count2[s2[start] - 'a']-=1; 
+            l++; // new wind starting
+            count2[s2[end] - 'a']+=1;
+            
+          
+            if(count1 == count2) ans.PB( start); // adds O(26) can improve by using freq of freq
+            end++; //win shifted to take new character
+        }
+        if(ans.size()==0) 
+        return false;
+        else 
+        return ans;
+        
+    }
+};
+
