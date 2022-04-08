@@ -2,9 +2,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nearest smaller to rig
 // find nect smaller element to right. 
 // for each index of arr return index of next smaller element to its right
 
- stack<pair<int,int>>sr;
-
-    stack<pair<int,int>>sl;
+    stack<pair<int,int>>sr;
+   stack<pair<int,int>>sl;
     vector<int>left;
     vector<int>right;
  void smallerleft(vector<int>& h)
@@ -32,4 +31,26 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nearest smaller to rig
         }
          reverse(right.begin(),right.end()); 
     }
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx nearest greater element to right
+   
+   stack<pair<int,int>>sr;
+   vector<int>right;
+void greaterright(vector<int>& h)
+    {
+        int n = h.size();
+        sr.push({-1,-1}); // initial value . stack will never be empty
+        for(int i =n-1 ; i >= 0; i--)
+        {
+            while(  sr.top().first!= -1 &&  sr.top().first <= h[i]) 
+                sr.pop();
+            if(sr.top().second ==-1)
+              right.push_back(0); // didnt use right[i]=sr.top().second; hence will reverse sr at last
+            else
+                right.push_back(sr.top().second);
+                
+            sr.push({h[i],i});
+            
+        }
+         reverse(right.begin(),right.end()); 
+    }
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
