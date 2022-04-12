@@ -26,4 +26,37 @@ public:
         
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  F 0/1 func
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int h) {
+        
+        int l =1; 
+        int r= 1e9; 
+        // r always points to k which is acceptable
+        int ans = 1<<30;
+        
+        while(l<= r)
+        {
+            int k = l + (r-l)/2;
+            if(pass(piles,k,h)) // possible to eat all bananas if rate is k and h hrs time
+                { 
+                ans = min(ans, k);
+                    r= k-1; 
+                }
+            
+            else // not possible to eat at k rate have to increase  the tare
+                l = k+1;
+        }
+        return ans;
+       
+    }
+    bool pass(vector<int>& nums,int k, int h){
+        int NumberOfHours=0;
+        for(int i=0;i<nums.size();i++){
+            NumberOfHours+=(nums[i]%k==0) ? nums[i]/k : (nums[i]/k)+1;
+        }
+        return NumberOfHours <= h;
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
