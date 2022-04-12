@@ -117,7 +117,58 @@ int lastocc( int l , int r, int k)
      }
   return lo ; // not found
 }
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx count of elmn in sorted array
+// find foiorst occur and last occur
+//edge case
+if(v[0] == v[v.size()-1])  // 5 5 5 5 5 5 5 5 5 5 
+  if(v[0]==k) return v.size();
+  else return 0;
+return lo- f+1;
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Number of Times a Sorted array is Rotated xxxxxxxxxxxxxxxxxxxxxxxxx
+// 2 4 6 8 11 12 15 18
+// rotate 4 times == // 11 12 15 18 (break)  2 4 6 8 == index of smallest element in given array
+// edge case if last elmn >= first elmn then 0 rotation
+// concept if mid > = start index elmn (sorted portion ), then the break didnt happen, smallest elmn lies in unsorted array
+//and break/ smallest elmn lies left  of mid. else lies on right of mid
+// when to return mid? only smallest elmn is smaller then both of its neighbours. 
+//also   11 12 15 18    2 2 2 4 6 8 (should return first occurance of 2
+//         first half   second half (smallest lies in second half only)                                                 
 
-
+int findMin(vector<int>& nums)   // works for duplicate values too
+{
+        int n = nums.size();
+        
+		//if size of array is one
+        if(n==1)
+            return nums[0];
+        
+        //if array is sorted then first element is smallest
+        if(nums[0] <=  nums[n-1])
+            return nums[0];
+        
+        int start = 0;
+        int end = n-1;
+        
+        int ans = INT_MAX;
+        int ind=-1;
+        while(start <= end){
+            
+            int mid = start  + ( end -  start ) / 2;
+			
+			//if mid is in first part of array
+            if(nums[mid] >= nums[0])
+                start = mid +1;
+            
+            else // mid is in 2nd half, mid is possible ans
+            {
+                ans = min(ans , nums[mid]);
+                ind=mid;
+                end = mid - 1;
+                
+            }
+        }
+        //ind = no of times array is rotated
+        return ans;
+    }
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
