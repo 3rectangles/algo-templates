@@ -124,7 +124,7 @@ if(v[0] == v[v.size()-1])  // 5 5 5 5 5 5 5 5 5 5
   if(v[0]==k) return v.size();
   else return 0;
 return lo- f+1;
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Number of Times a Sorted array is Rotated xxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Number of Times a Sorted array is Rotated, unique elements xxxxxxxxxxxxxxxxxxxxxxxxx
 // 2 4 6 8 11 12 15 18
 // rotate 4 times == // 11 12 15 18 (break)  2 4 6 8 == index of smallest element in given array
 // edge case if last elmn >= first elmn then 0 rotation
@@ -133,6 +133,8 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  Number of Times a
 // when to return mid? only smallest elmn is smaller then both of its neighbours. 
 //also   11 12 15 18    2 2 2 4 6 8 (should return first occurance of 2
 //         first half   second half (smallest lies in second half only)                                                 
+
+
 
 int findMin(vector<int>& nums)   // works for duplicate values too
 {
@@ -156,7 +158,7 @@ int findMin(vector<int>& nums)   // works for duplicate values too
             int mid = start  + ( end -  start ) / 2;
 			
 			//if mid is in first part of array
-            if(nums[mid] >= nums[0])
+            if(nums[mid] >= nums[0])  //  2 2 2 2 3  (second half)2 2 doesnt work for this
                 start = mid +1;
             
             else // mid is in 2nd half, mid is possible ans
@@ -170,5 +172,29 @@ int findMin(vector<int>& nums)   // works for duplicate values too
         //ind = no of times array is rotated
         return ans;
     }
-    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  peak element xxxxxxxxxxxxxxxxxx
+    // remember before accessing container to check if it exists or not
+    
+    class Solution {
+public:
+     int findPeakElement(vector<int>& nums) {
+        int low=0; int high= nums.size()-1;
+        
+        while(low<=high){
+            int mid= low+ (high-low)/2;
+            
+            if( (mid==0 || nums[mid-1]<nums[mid]) && (mid==nums.size()-1 || nums[mid+1]<nums[mid]) ){
+                return mid;
+            }
+            else if(mid-1>=0 && nums[mid-1]>nums[mid]){ // go to left
+                high= mid-1;
+            }
+            else if(mid+1<=nums.size()-1 && nums[mid+1]>nums[mid]){ // got to right               
+                low= mid+1;
+            }
+        }
+        return 0; // useless, just for the sake of returning any integer
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
