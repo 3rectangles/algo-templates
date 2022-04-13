@@ -88,35 +88,47 @@ if(r == n ) break; // not possible
 
 lastocc=r;
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-int firstocc( int l , int r, int k)
-{
-  int f=-1;
-  while(l<=r)
-     {
-      int mid = l + (r-L)/2;
-      if(v[mid] == k ) // can be first occurance but we cont our search to left side
-      {  f= mid; r= mid-1; }
-      else if (v[mid] > k) l = mid+1;
-      else 
-       r = mid - 1;
-     }
-  return f ; // not found
-}
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int k) {
+        vector<int> ans;
+        int l =0; int r =nums.size()-1;
+      ans.push_back(firstocc( nums, l , r, k));
+        ans.push_back(lastocc(nums, l , r, k));
+        return ans;
+        
+    }
+int firstocc( vector<int>& v,int l , int r, int k)
+    {
+      int f=-1;
+      while(l<=r)
+         {
+          int mid = l + (r-l)/2;
+          if(v[mid] == k ) // can be first occurance but we cont our search to left side
+          {  f= mid; r= mid-1; }
+          else if (v[mid] > k) r = mid - 1;
+          else 
+           l = mid+1;
+         }
+      return f ; // not found
+    }
 
-int lastocc( int l , int r, int k)
-{
-  int lo=-1;
-  while(l<=r)
-     {
-      int mid = l + (r-L)/2;
-      if(v[mid] == k ) // can be possible last occurance but we cont our search to righ side
-      {  lo= mid; l= mid-1; }
-      else if (v[mid] > k) l = mid+1;
-      else 
-       r = mid - 1;
-     }
-  return lo ; // not found
-}
+int lastocc(vector<int>& v, int l , int r, int k)
+    {
+      int lo=-1;
+      while(l<=r)
+         {
+          int mid = l + (r-l)/2;
+          if(v[mid] == k ) // can be possible last occurance but we cont our search to righ side
+          {  lo= mid; l= mid+1; }
+          else if (v[mid] > k) r = mid - 1;
+          else 
+           l = mid+1;
+         }
+      return lo ; // not found
+    }
+    
+};
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx count of elmn in sorted array
 // find foiorst occur and last occur
 //edge case
