@@ -57,41 +57,10 @@ public:
     }
     
     void print()
-    {
-        for( int i =0; i< level.size(); i++)
-        {
-            
-             for( int j =0; j<level[i].size(); j++)
-                {
-                    cout<<level[i][j]<<" ";
-                }
-            cout<<endl;
-        }
-    }
-    
-    void levelorder( TreeNode* root)
-    {
-        if ( root == NULL) return;
-        q.push(root);
-        while(!q.empty())
-        {
-            vector<int> l;
-           // cout<< "q size = "<<q.size()<<endl;
-            int s= q.size();
-            for(int i = 0; i< s;i++)
-            {
-                TreeNode* temp= q.front();
-                q.pop();
-                
-                l.push_back(temp->val);
-                if(temp-> left != NULL)
-                    q.push(temp->left);
-                if(temp-> right != NULL)
-                    q.push(temp->right);
-            }
-           // cout<<"l size "<<l.size()<<endl;
-            level.push_back(l);
-        }
-    }
+    {for( int i =0; i< level.size(); i++)
+        {for( int j =0; j<level[i].size(); j++)
+                cout<<level[i][j]<<" ";
+            cout<<endl;}}
+   
 };
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
