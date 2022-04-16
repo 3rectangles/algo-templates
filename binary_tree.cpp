@@ -87,4 +87,72 @@ public:
         return ans;
     }
 };
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  vertical order traversal in binary tree, using level order traversal xxxxxxxxxxxxxxxxxx
+class Solution {
+    public:
+     vector<vector<int>> level;
+    unordered_map< int, vector<pair<int,int>> > um;
+    int mleft=1;
+    int mright=-1;
+     queue<pair<TreeNode*, int>> q;
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        levelorder(root, 0);
+     //   print();
+        
+       vector< vector<int>> ans;
+        
+        
+        for( int i =mleft; i<= mright; i++)
+        {
+            //int n = level[i].size();  // imp bec we cant access q size during loop when we are updating the size during the loop
+            sort(um[i].begin(),um[i].end(),cmp);
+            vector<int> suba;
+            for(int j =0; j< um[i].size(); j++)
+                suba.push_back(um[i][j].second);
+            ans.push_back(suba);
+        }
+            //ans.push_back(level[i].back());
+        return ans;
+        
+    }
+  static  bool cmp( pair<int,int> const v1, pair<int,int>  const v2)
+    {
+        if(v1.first < v2.first) return true;
+        else if (v1.first == v2.first && v1.second < v2.second) return true;
+        else 
+            return false;
+    }
+    
+         void levelorder( TreeNode* root, int i)
+    {
+        if ( root == NULL) return;
+        q.push({root , i});
+              int  l=0;
+        while(!q.empty())
+        {
+          
+           // cout<< "q size = "<<q.size()<<endl;
+            int s= q.size();
+            for(int i = 0; i< s;i++)
+            {
+                TreeNode* temp= q.front().first;
+                int ind = q.front().second;
+                q.pop();
+                um[ind].push_back({l,temp->val});
+                mleft= min(mleft, ind);
+                mright= max(mright, ind);
+               
+              //  l.push_back(temp->val);
+                if(temp-> left != NULL)
+                    q.push({temp->left , ind-1});
+                  
+                if(temp-> right != NULL)
+                   q.push({temp->right , ind+1});
+            }
+           // cout<<"l size "<<l.size()<<endl;
+           l++;
+        }
+    }
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
