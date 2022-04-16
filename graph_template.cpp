@@ -464,7 +464,8 @@ bfs()
 
     while(!q.empty())
     {
-        for( int j=0; j< q.size();j++) // for levels
+    int qsize = q.size(); // imp bec we cant access q size during loop when we are updating the size during the loop
+        for( int j=0; j< qsize;j++) // for levels
         {   node=q.front(); q.pop(); 
             this_level.clear();
             for( auto child: adj[node]) // visiting every neighbor/child
