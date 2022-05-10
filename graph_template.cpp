@@ -1175,7 +1175,7 @@ void merge(int x, int y)
         {
             par[b]+=par[a]; //INCREASE set size of a
             par[a]=b; // update parent of b
-            a5[]
+            
         }
     else { // both tree have same size
         
@@ -1191,7 +1191,7 @@ void addedges()
     while(auto e:edges)
     {
         if(find(e.u)==find(e.v) cout>>"cycle";
-        union(e.u,e.v);
+        merge(e.u,e.v);
     }
 }
 
