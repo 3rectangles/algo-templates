@@ -1,4 +1,4 @@
-xxxxxxxxxxxxxxxx GRID DP tabulationxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxx GRID DP tabulation : no of max path value xxxxxxxxxxxxxxxxxxxxx
 
 // find pahts from src to target, some are blocked, return max value paths and no of paths possible paths which have max value
 
@@ -77,3 +77,65 @@ public:
         return {sum,paths}; // else return what we got
     }
 };
+
+xxxxxxxxxxxxxxxxxxxxx cherry pick 2 , xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// two robots moving down simultaneously, from each cell can pick no of cherries, if both robots are in same cell, only one robot can pick tthe cherry. 
+//return nmax cherry robots can ghather
+class Solution {
+public:
+int dp[71][71][71]; // ror col1 col2 : at every each robot moves down, hence row is always constant. even if robots move in opposite direct still r1+c1= r2+c2
+
+int func(vector<vector<int>>&grid,int r1,int c1,int c2){
+    int r2=r1;
+    if(r1>=grid.size() || r2>=grid.size() || c1<0 || c2<0 || c1>=grid[0].size() || c2>=grid[0].size()){ // out of bound
+        return INT_MIN;
+    }
+    
+    if(dp[r1][c1][c2]!=-1){ // caching
+        return dp[r1][c1][c2];
+    }
+    
+    if(r1==grid.size()-1){ /// reached the last row. if both robots are in same cell. cherry can be added only once
+        if(c1==c2){
+            return grid[r1][c1];
+        }
+        else{ // both are in diff cells hance add cherries from both the cells
+            return grid[r1][c1]+grid[r1][c2];
+        }
+        
+    }
+    
+    int cherry=0;
+    if(c1==c2){ //induction step, if both robots are in same cell, cherries are added once else add from both cells
+        cherry+=grid[r1][c1];
+    }
+else{
+        cherry+=grid[r1][c1];
+        cherry+=grid[r1][c2];
+    }
+    
+    int maxcherry=0;
+    for(int i=-1;i<=1;i++){ // recursive step
+        
+        for(int j=-1;j<=1;j++){ // all possible states of both robots, chose the best one
+            maxcherry=max(maxcherry,func(grid,r1+1,c1+i,c2+j));
+        }
+    }
+    
+    return dp[r1][c1][c2]=cherry+maxcherry; // reutn future best state + current state value
+    
+}
+
+int cherryPickup(vector<vector<int>>& grid) {
+    
+    int m=grid.size();
+    int n=grid[0].size();
+    
+    memset(dp,-1,sizeof(dp));
+    
+    int ans=func(grid,0,0,n-1); // the intial pos of robots, top left and top right. [0][0] and [0][n-1]
+    return ans;
+    
+}
+};
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
