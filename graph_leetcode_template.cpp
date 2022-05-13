@@ -71,4 +71,35 @@ public:
     }
 };
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx check if bipartite using dfs xxxxxxxxxxxxxxxxxxxxxxxxxxx
+vector<int> adj[101];
+    vector<int> col; // IF COLORED THEN ITS VISITED
+ bool main ()
+{
+     col.resize(n, -1);
+     for( int i =0 ; i < n; i ++ )
+                if( col[i] == -1) // if not vis. connected component
+                    if( !dfs(i)) //if not bipartite
+                        return false;
+            return true; // if every component was bipartite
+ }
+ 
+bool dfs( int u, int par =-1, int c=0)
+    {
+      col[u]=c; // gice col to the node
+        for( auto child: adj[u]) // visit all children
+        {
+          if( child == par) //not needed here but part of template
+                continue;
+          else if( col[child] != -1 &&   col[child]  == c) // if child is already colored and same as current
+               return false;
+          else if( col[child] == -1) // not colored
+            {
+              if( !dfs( child , u, c^1)) // send to further check and if further check isnt bopartite 
+                    return false;
+            }
+        }
+    
+        return true; // every chain of child was bipartite
+    }
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
