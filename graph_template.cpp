@@ -465,9 +465,10 @@ bfs()
     while(!q.empty())
     {
     int qsize = q.size(); // imp bec we cant access q size during loop when we are updating the size during the loop
-        for( int j=0; j< qsize;j++) // for levels
+        this_level.clear();
+       for( int j=0; j< qsize;j++) // for levels
         {   node=q.front(); q.pop(); 
-            this_level.clear();
+           
             for( auto child: adj[node]) // visiting every neighbor/child
             {
                 // if (child == to search)
@@ -509,6 +510,7 @@ bfs(i,n)
     {
         node=q.front(); // once taken out from q its proven its the shortest path for this node. lemma 2
         q.pop();
+	
         for(int it: adj[node])
         {
             if(dis[it]>dis[node]+1)  //relaxation
@@ -566,9 +568,9 @@ void components()
         {
             if (grid[i][j]=="blocked")
                 vis[i][j]= true;
-            if(!vis[i][j])
+            if(!vis[i][j]) // could use dsu also to know which cells are part of which component
             {
-                dfs(i,j);
+                dfs(i,j); // send the component no, then all cells that can be reached in this dfs will be marked with that component number
                 components++;
             }
         }
@@ -585,11 +587,11 @@ void shortestPath(int src,n)  // Prints shortest paths from src to all other ver
 	priority_queue< iPair, vector <iPair> , greater<iPair> > pq;
 	vector<int> dist(n, INF);
 	pq.push({0, src});  
-	dist[src] = 0;
+	dist[src] = 0;  //ditance to reach source is 0
     while (!pq.empty())
 	{
     	int u = pq.top().second;  // {dist, u} in pq
-        int d=pq.top().first; // d cost to reach u, for thgis path
+        int d=pq.top().first; // d cost to reach u, for this path
         pq.pop();
 
         if(dist[u] <  d) continue;  // if we already know a path to reach u better than this, so avoid this path 
@@ -958,7 +960,7 @@ bool dfs(int u, int dst)
 	path.PB(u);
 	pathflag[u] = true; // to mark node in current path, ,recursion stack flag
     if(u==dst) // reached dst, possible path
-    ans.pb()
+    ans.pb(path);
 	for(auto v: adj[u])
 	{
         if( !pathflag[v]) // if not part of current path go ahead 
@@ -973,7 +975,7 @@ bool dfs(int u, int dst)
 // Time Complexity: O(V^V).  from each vertex, v connections should use topo sort instead for DAG
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxx  count possible paths in dag using topo sortxxxxxxxxxxxxxxxxxxxxxxxx
-
+ do by dp, code in docs
 int top_sort()
 {   
     // pruning
