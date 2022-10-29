@@ -1190,7 +1190,7 @@ void merge(int x, int y)
 void addedges()
 {
     //add edge. union if par of u, v are diff . if same parnts, cycle exists
-    while(auto e:edges)
+    while(auto &e:edges)
     {
         if(find(e.u)==find(e.v) cout>>"cycle";
         merge(e.u,e.v);
@@ -1209,9 +1209,9 @@ int main()
     addedges();
 }
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx kruskal algo
-// sort edges
-// loop for n-1 edges, if no cycle add edge to graph
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx kruskal algo for mst
+// sort edges acc to weights
+// loop for n-1 edges, if no cycle add edge to graph, 
 xxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxx successor graph / binary lifting/ LCA/ k ancestor xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // uses binary lifting 
