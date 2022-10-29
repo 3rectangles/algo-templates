@@ -245,3 +245,31 @@ public:
         return 0.0; 
     }
 };
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx bs in inf array
+// If the array is infinite, that means we don’t have proper bounds to apply binary search. So in order to find position of key, first we find bounds and then apply binary search algorithm.
+// Let low be pointing to 1st element and high pointing to 2nd element of array, Now compare key with high index element, 
+// ->if it is greater than high index element then copy high index in low index and double the high index. 
+// ->if it is smaller, then apply binary search on high and low indices found. 
+	
+int findPos(int arr[], int key)
+{
+    int l = 0, h = 1;
+    int val = arr[0];
+ 
+    // Find h to do binary search
+    while (val < key)
+    {
+        l = h;        // store previous high
+        h = 2*h;      // double high index
+        val = arr[h]; // update new val
+    }
+ 
+    // at this point we have updated low and
+    // high indices, Thus use binary search
+    // between them
+    return binarySearch(arr, l, h, key);
+}
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
