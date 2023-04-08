@@ -235,17 +235,17 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx M colOURING GRAPH,
             color_used.clear(); 
             if(vis[it]==0) //unvisited dont have color
                 q.push(it); //will be assigned color
-            else // have color
+            else // have color or is in the queue, to be asigned color later
             {
                 color_used[have_color[it]]=1;
             }
             //assign available color
-            for(int i =0; i < color_used.size();i++)
+            for(int i =1; i < color_used.size();i++) // colors are assigned starting from 1, bec 0 means colorless till now
             {
                 if(color_used[i]==0) //lowest available color
                     break;
             }
-            //if(i>1) cout<<"not a bipatite graph";
+            //if(i>2) cout<<"not a bipatite graph";
             have_color[node]=i;
             color[i].PB(node); //which nodes have ith color
             
@@ -266,7 +266,7 @@ int main() {
 	    adj[v].push_back(u); 
 	}
 	
-	unordered_map<vector<int>> color; // store which nodes are given which color
+	unordered_map<int, vector<int>> color; // store which nodes are given which color, int is key( color no)
     vector<int> vis(n, 0); // visited array
 	
 	for(int i = 0;i<n;i++) { // for all connected components, 0 based index of nodess
@@ -281,7 +281,7 @@ int main() {
 	return 0;
 }
 
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx bipatite graph using dfs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx bipatite graph using dfs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  vector<int> col(2,0); // freq of color
  vector<int> color(n,0);
   vector<int> vis(n, 0); // visited array
@@ -307,6 +307,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx bipatite graph using dfs xxxxx
             return -1; // not bipatite
         }    
      }
+    return 1; // path folloiwng "node" is bipartite
  }
 
  
@@ -353,6 +354,7 @@ int dfs(node, p)
             return x;
         }
     }
+    // as its undirected graph hence, no need to unmark visited. its done in directed graph.
     return 0; // no cyle found
 }
 
@@ -496,38 +498,33 @@ bfs()
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx count of shortest path in undirected graph xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 
-vector<int> dis(n,INT_MAX);
-vector<int> num(n,0);
-vector<int> par(n,-1);
-bfs(i,n)
-{
-    queue<int>q;
-    q.push(i);
-    dis[i]=0; //src
-    
+vector<int> dis(n, INT_MAX); // Initialize an array to store the shortest path lengths from the source node to all other nodes. We initialize each value to INT_MAX to represent that the nodes are not reachable from the source yet.
+vector<int> num(n, 0); // Initialize an array to store the number of shortest paths from the source node to all other nodes. We initialize each value to 0 to represent that we haven't found any shortest paths yet.
+vector<int> par(n, -1); // Initialize an array to store the parent node of each node in the shortest path tree. We initialize each value to -1 to represent that the nodes are not reachable from the source yet.
 
-    while(!q.empty())
-    {
-        node=q.front(); // once taken out from q its proven its the shortest path for this node. lemma 2
-        q.pop();
-	
-        for(int it: adj[node])
-        {
-            if(dis[it]>dis[node]+1)  //relaxation
-            {
-                dis[it]=dis[node]+1;
-                q.push(it); // push
-                par[it]=node;
-                num[it]=num[node]; // stores shortest path till, all shortest path to it comes from node, bec dis got relaxed
+bfs(int i, int n) { // Perform a breadth-first search starting from the source node i in the graph with n nodes.
+    queue<int> q;
+    q.push(i); // Add the source node to the queue.
+    dis[i] = 0; // Set the shortest path length from the source node to itself to 0.
+    num[i] = 1; // Set the number of shortest paths from the source node to itself to 1 (there's only one shortest path to itself).
+
+    while (!q.empty()) { // While there are still nodes in the queue:
+        int node = q.front(); // Take the next node from the front of the queue.
+        q.pop(); // Remove it from the queue.
+
+        for (int it : adj[node]) { // For each neighbor it of the current node:
+            if (dis[it] > dis[node] + 1) { // If the shortest path length to it through the current node is smaller than the current value of dis[it]:
+                dis[it] = dis[node] + 1; // Update the shortest path length to it.
+                q.push(it); // Add it to the queue.
+                par[it] = node; // Update the parent node of it to be the current node.
+                num[it] = num[node]; // Update the number of shortest paths to it to be the same as the number of shortest paths to the current node, since we've found a new shortest path to it through the current node.
+            } else if (dis[it] == dis[node] + 1) { // If the shortest path length to it through the current node is equal to the current value of dis[it]:
+                num[it] += num[node]; // Update the number of shortest paths to it by adding the number of shortest paths to the current node, since we've found another shortest path to it through the current node.
             }
-
-            if(dis[it]=dis[node]+1) //not shortest but of same length hence got one more shortest path
-                { 
-                    num[it]=num[node]+1;
-                } 
         }
     }
 }
+
 
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx dfs on grid: count of connected components in grid xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -787,7 +784,7 @@ int32_t main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
  
-	cin >> n >> m;
+	cin >> n >> m
 	
 	for(int i = 0; i < m; ++i)
 	{
@@ -891,61 +888,67 @@ int32_t main()
     cout << disc[n] << endl;
 }
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx topological sort, kanhs algo xxxxx
-int n, m;
-vector<int> degree;// indegree of every node
-priority_queue<int, vector<int>, greater<int>> noInDeg;
-vector<vector<int>> g
+#include <iostream>
+#include <vector>
+#include <queue>
 
-topo()
-{
-	for(int i = 1; i <= n; ++i)
-	{
-		if(!degree[i])
-			noInDeg.push(i);   // all nodes having indegree 0, topo start from here
-	}
- 
-	vector<int> ans;
-	while(!noInDeg.empty())
-	{
-		int u = noInDeg.top();
-		noInDeg.pop();
-		ans.push_back(u); // add to topo sort
-		for(auto v: g[u])
-		{
-			--degree[v];// go to every neighbor vertex decrease the indegree by 1
-			if(!degree[v]) noInDeg.push(v); // when indegree become 0 add to queue
-		}
-	}
-} 
-int32_t main()
-{
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	int n, m;
-	cin >> n >> m;
-	g.resize(n+1);
-	degree.resize(n+1);
- 
-	for(int i = 0; i < m; ++i) // read all edges and note their indgree
-	{
-		int u, v;
-		cin >> u >> v; // u--> v
-		g[u].push_back(v);
-		++degree[v];  // indegree[v]+=1
+using namespace std;
+
+// Function to perform toposort using Kahn's algorithm
+vector<int> toposort(vector<vector<int>>& graph) {
+    int n = graph.size();
+    vector<int> in_degree(n, 0); // Initialize in-degree of all nodes to 0
+    for (int u = 0; u < n; u++) { // Compute in-degree of each node
+        for (int v : graph[u]) {
+            in_degree[v]++;
+        }
     }
-
-    topo();    
-
-	if(ans.size() != n) // topo sort not possible contains cycle
-	{
-		cout << "IMPOSSIBLE";
-	}
-	else
-	{
-		for(auto u: ans)
-			cout << u << " ";
-	}
+    queue<int> q;
+    for (int u = 0; u < n; u++) { // Add all nodes with in-degree 0 to the queue
+        if (in_degree[u] == 0) {
+            q.push(u);
+        }
+    }
+    vector<int> sorted_nodes; // Initialize empty list to store sorted nodes
+    while (!q.empty()) {
+        int u = q.front(); // Choose a node with in-degree 0
+        q.pop();
+        sorted_nodes.push_back(u); // Add it to the sorted list
+        for (int v : graph[u]) { // Remove outgoing edges and update in-degree of connected nodes
+            in_degree[v]--;
+            if (in_degree[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+    if (sorted_nodes.size() != n) { // Check if graph contains a cycle
+        sorted_nodes.clear(); // Return an empty list if graph contains a cycle,
+    }
+    return sorted_nodes; // Return sorted list of nodes
 }
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> graph(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v); // Add directed edge (u, v) to the graph
+    }
+    vector<int> sorted_nodes = toposort(graph); // Compute toposort of the graph
+    if (sorted_nodes.empty()) {
+        cout << "Graph contains a cycle!\n";
+    } else {
+        cout << "Topologically sorted nodes: ";
+        for (int u : sorted_nodes) {
+            cout << u << " ";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx all possible paths from src to dest in  dag directed  acyclic graph/ or any graph using dfs xxxxxxxx
 
 int n, m;
@@ -975,48 +978,67 @@ bool dfs(int u, int dst)
 // Time Complexity: O(V^V).  from each vertex, v connections should use topo sort instead for DAG
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxx  count possible paths in dag using topo sortxxxxxxxxxxxxxxxxxxxxxxxx
- do by dp, code in docs
-int top_sort()
-{   
-    // pruning
-    src=1;
-	queue<int> q;
-	for(int i = 2; i <= n; ++i) // not including src node
-	{
-		if(inDegree[i] == 0)
-		{
-			q.push(i);	
-		}
-	}
-	while(!q.empty())
-	{
-		int u = q.front();
-		q.pop();
-		for(auto v: g[u])
-		{
-			--inDegree[v];
-			if(inDegree[v] == 0)
-				q.push(v);
-		}
-	}
-	q.push(1); // starting topo only from src node
-	cnt[1] = 1; // path count to src is 1
-	while(!q.empty())
-	{
-		int u = q.front();
-		q.pop();
-		for(auto v: g[u])
-		{
-			--inDegree[v];
-			cnt[v] = cnt[v] + cnt[u];
-			cnt[v] %=  modb;  //if mmentioned in ques to mod total paths possible
-			if(inDegree[v] == 0)
-				q.push(v);
-		}
-	}
-    return cnt[dst];
+ 
+ //To count the number of possible paths from source to destination in a DAG (directed acyclic graph), 
+ //we can use a modified version of Kahn's algorithm for toposort. 
+ //Specifically, we can keep track of the number of paths to each node in the graph as we perform the toposort, 
+ //and return the number of paths to the destination node.
+ 
+ #include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+// Function to perform toposort and count paths from source to destination
+int count_paths(vector<vector<int>>& graph, int source, int dest) {
+    int n = graph.size();
+    vector<int> in_degree(n, 0); // Initialize in-degree of all nodes to 0
+    vector<int> num_paths(n, 0); // Initialize number of paths to all nodes to 0
+    num_paths[source] = 1; // There is 1 path to the source node
+    for (int u = 0; u < n; u++) { // Compute in-degree of each node
+        for (int v : graph[u]) {
+            in_degree[v]++;
+        }
+    }
+    queue<int> q;
+    for (int u = 0; u < n; u++) { // Add all nodes with in-degree 0 to the queue
+        if (in_degree[u] == 0) {
+            q.push(u);
+        }
+    }
+    while (!q.empty()) {
+        int u = q.front(); // Choose a node with in-degree 0
+        q.pop();
+        for (int v : graph[u]) { // Remove outgoing edges and update number of paths to connected nodes
+            num_paths[v] += num_paths[u];
+            in_degree[v]--;
+            if (in_degree[v] == 0) {
+                q.push(v);
+            }
+        }
+    }
+    return num_paths[dest]; // Return number of paths to destination node
 }
 
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> graph(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v); // Add directed edge (u, v) to the graph
+    }
+    int source, dest;
+    cin >> source >> dest;
+    int num_paths = count_paths(graph, source, dest); // Count number of paths from source to destination
+    cout << "Number of paths from " << source << " to " << dest << " = " << num_paths << "\n";
+    return 0;
+}
+
+ 
+ 
 
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ---binary lifting code / successor graphs 
