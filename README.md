@@ -1,2 +1,1 @@
-# algo-templates
- 
+# algo-templates in c++
